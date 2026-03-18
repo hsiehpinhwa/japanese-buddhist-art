@@ -5,17 +5,116 @@ html {
 }
 
 body {
-  background: #f2ece0;
+  background-color: #f2ece0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.055'/%3E%3C/svg%3E");
   color: #1a1a1a;
   -webkit-font-smoothing: antialiased;
 }
 
-::-webkit-scrollbar { width: 4px; }
-::-webkit-scrollbar-track { background: #f2ece0; }
-::-webkit-scrollbar-thumb { background: #c9a84c; border-radius: 2px; }
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #c9a84c; border-radius: 0; }
 
+/* ── Drawer ── */
 @keyframes drawerSlide {
-  from { opacity: 0; transform: translateX(16px); }
+  from { opacity: 0; transform: translateX(24px); }
   to   { opacity: 1; transform: translateX(0); }
 }
-.drawer-enter { animation: drawerSlide 0.22s ease-out; }
+.drawer-enter {
+  animation: drawerSlide 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ── Statue card hover ── */
+.statue-card {
+  transition:
+    transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.2s ease,
+    border-left-color 0.15s ease,
+    background 0.15s ease;
+}
+.statue-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(201, 168, 76, 0.14);
+}
+
+/* ── Era block cards stagger ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.era-cards > * {
+  animation: fadeUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.era-cards > *:nth-child(1)  { animation-delay: 0.04s; }
+.era-cards > *:nth-child(2)  { animation-delay: 0.08s; }
+.era-cards > *:nth-child(3)  { animation-delay: 0.12s; }
+.era-cards > *:nth-child(4)  { animation-delay: 0.16s; }
+.era-cards > *:nth-child(5)  { animation-delay: 0.20s; }
+.era-cards > *:nth-child(6)  { animation-delay: 0.24s; }
+.era-cards > *:nth-child(7)  { animation-delay: 0.28s; }
+.era-cards > *:nth-child(8)  { animation-delay: 0.32s; }
+.era-cards > *:nth-child(9)  { animation-delay: 0.36s; }
+.era-cards > *:nth-child(10) { animation-delay: 0.40s; }
+
+/* ── Era header gold accent pulse ── */
+@keyframes goldPulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.6; }
+}
+.era-gold-bar {
+  animation: goldPulse 4s ease-in-out infinite;
+}
+
+/* ── Thumbnail image hover zoom ── */
+.thumb-wrap img {
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.statue-card:hover .thumb-wrap img {
+  transform: scale(1.08);
+}
+
+/* ── Drawer title fade-in ── */
+@keyframes titleReveal {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.drawer-title {
+  animation: titleReveal 0.4s cubic-bezier(0.16, 1, 0.3, 1) 0.08s both;
+}
+
+/* ── Mobile bottom sheet ── */
+@keyframes sheetSlideUp {
+  from { transform: translateY(100%); opacity: 0.8; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+.sheet-enter {
+  animation: sheetSlideUp 0.38s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ── Mobile hero title ── */
+@media (max-width: 767px) {
+  .hero-title {
+    font-size: clamp(30px, 9vw, 44px) !important;
+    letter-spacing: 0.06em !important;
+  }
+  .hero-subtitle {
+    font-size: 8px !important;
+    letter-spacing: 0.05em !important;
+  }
+  .hero-stat-num {
+    font-size: 16px !important;
+  }
+  .hero-stat-label {
+    font-size: 8px !important;
+  }
+  /* FilterBar: horizontal scroll, no wrap */
+  .filter-row {
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 2px;
+  }
+  .filter-row::-webkit-scrollbar { display: none; }
+}

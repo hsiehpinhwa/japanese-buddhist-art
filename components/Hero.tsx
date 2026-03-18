@@ -22,7 +22,7 @@ export default function Hero() {
       <div className="relative z-10 px-8 pt-8 pb-6">
         {/* Japanese subtitle */}
         <p
-          className="mb-2 tracking-[0.4em] uppercase"
+          className="hero-subtitle mb-2 tracking-[0.4em] uppercase"
           style={{ fontSize: '11px', color: '#7a6840', fontFamily: 'var(--font-noto-sans)' }}
         >
           Nihon Butsuzo Bijutsu
@@ -30,12 +30,13 @@ export default function Hero() {
 
         {/* Main title */}
         <h1
+          className="hero-title"
           style={{
             fontSize: '56px',
             color: '#f2ece0',
             letterSpacing: '0.15em',
             fontWeight: 400,
-            lineHeight: 1,
+            lineHeight: 1.1,
             fontFamily: 'var(--font-noto-serif)',
           }}
         >
@@ -69,10 +70,10 @@ export default function Hero() {
               className="flex-1 text-center"
               style={{ borderRight: i < 4 ? '1px solid #2e2518' : undefined, maxWidth: '140px' }}
             >
-              <div style={{ fontSize: '22px', color: '#c9a84c', fontFamily: 'var(--font-noto-sans)', fontWeight: 300 }}>
+              <div className="hero-stat-num" style={{ fontSize: '22px', color: '#c9a84c', fontFamily: 'var(--font-noto-sans)', fontWeight: 300 }}>
                 {num}
               </div>
-              <div style={{ fontSize: '9px', color: '#5a5040', letterSpacing: '0.15em', fontFamily: 'var(--font-noto-sans)', marginTop: '2px' }}>
+              <div className="hero-stat-label" style={{ fontSize: '9px', color: '#5a5040', letterSpacing: '0.15em', fontFamily: 'var(--font-noto-sans)', marginTop: '2px' }}>
                 {label}
               </div>
             </div>

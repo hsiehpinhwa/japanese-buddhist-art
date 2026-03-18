@@ -48,8 +48,8 @@ export default function FilterBar({ filters, onChange }: Props) {
       style={{ background: '#f2ece0', borderBottom: '1px solid #d8d0c0' }}
     >
       {/* Row 1: 時代 */}
-      <div className="flex items-center gap-1.5 flex-wrap">
-        <span style={{ fontSize: '8px', color: '#9a8870', letterSpacing: '0.15em', fontFamily: 'var(--font-noto-sans)', minWidth: '28px' }}>
+      <div className="filter-row flex items-center gap-1.5 flex-wrap">
+        <span style={{ fontSize: '8px', color: '#9a8870', letterSpacing: '0.15em', fontFamily: 'var(--font-noto-sans)', minWidth: '28px', flexShrink: 0 }}>
           時代
         </span>
         <Chip label="全部" active={!filters.era} onClick={() => onChange({ ...filters, era: '' })} />
@@ -59,8 +59,8 @@ export default function FilterBar({ filters, onChange }: Props) {
       </div>
 
       {/* Row 2: 等級 + 地區 */}
-      <div className="flex items-center gap-1.5 flex-wrap">
-        <span style={{ fontSize: '8px', color: '#9a8870', letterSpacing: '0.15em', fontFamily: 'var(--font-noto-sans)', minWidth: '28px' }}>
+      <div className="filter-row flex items-center gap-1.5 flex-wrap">
+        <span style={{ fontSize: '8px', color: '#9a8870', letterSpacing: '0.15em', fontFamily: 'var(--font-noto-sans)', minWidth: '28px', flexShrink: 0 }}>
           等級
         </span>
         <Chip label="國寶" active={filters.designation === '国宝'} onClick={() => set('designation', '国宝')} />

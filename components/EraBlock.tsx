@@ -22,6 +22,7 @@ export default function EraBlock({ era, statues, activeId, onSelect }: Props) {
           background: '#1a1510',
           borderLeft: '4px solid #c9a84c',
           padding: '10px 18px 10px 20px',
+          boxShadow: '0 1px 0 rgba(201,168,76,0.15)',
         }}
       >
         <span style={{ fontSize: '13px', color: '#f2ece0', letterSpacing: '0.2em', fontFamily: 'var(--font-noto-serif)', fontWeight: 400 }}>
@@ -55,7 +56,7 @@ export default function EraBlock({ era, statues, activeId, onSelect }: Props) {
       </div>
 
       {/* Statue cards */}
-      <div style={{ padding: '10px 14px 14px 14px', display: 'flex', flexDirection: 'column', gap: '6px' }}>
+      <div className="era-cards" style={{ padding: '10px 14px 14px 14px', display: 'flex', flexDirection: 'column', gap: '6px' }}>
         {statues.map((s) => (
           <StatueCard
             key={s.id}

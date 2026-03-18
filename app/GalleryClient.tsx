@@ -8,6 +8,7 @@ import Hero from '@/components/Hero'
 import FilterBar from '@/components/FilterBar'
 import EraBlock from '@/components/EraBlock'
 import StatueDrawer from '@/components/StatueDrawer'
+import { useIsMobile } from '@/hooks/useIsMobile'
 
 const ALL_STATUES = rawStatues as Statue[]
 
@@ -62,6 +63,7 @@ export default function GalleryClient() {
   }, [filtered])
 
   const drawerOpen = selectedStatue != null
+  const isMobile = useIsMobile()
 
   return (
     <div style={{ minHeight: '100vh', background: '#f2ece0' }}>
@@ -82,8 +84,8 @@ export default function GalleryClient() {
       {/* Main content */}
       <div
         style={{
-          display: 'grid',
-          gridTemplateColumns: drawerOpen ? '373px 1fr' : '1fr',
+          display: isMobile ? 'block' : 'grid',
+          gridTemplateColumns: !isMobile && drawerOpen ? '373px 1fr' : '1fr',
           minHeight: 'calc(100vh - 200px)',
           transition: 'grid-template-columns 0.25s ease',
         }}
@@ -91,11 +93,11 @@ export default function GalleryClient() {
         {/* Timeline */}
         <div
           style={{
-            borderRight: drawerOpen ? '1px solid #d8d0c0' : 'none',
-            overflowY: drawerOpen ? 'auto' : undefined,
-            maxHeight: drawerOpen ? 'calc(100vh - 200px)' : undefined,
-            position: drawerOpen ? 'sticky' : undefined,
-            top: drawerOpen ? '41px' : undefined,
+            borderRight: !isMobile && drawerOpen ? '1px solid #d8d0c0' : 'none',
+            overflowY: !isMobile && drawerOpen ? 'auto' : undefined,
+            maxHeight: !isMobile && drawerOpen ? 'calc(100vh - 200px)' : undefined,
+            position: !isMobile && drawerOpen ? 'sticky' : undefined,
+            top: !isMobile && drawerOpen ? '41px' : undefined,
           }}
         >
           {filtered.length === 0 ? (
@@ -116,8 +118,8 @@ export default function GalleryClient() {
           )}
         </div>
 
-        {/* Drawer */}
-        {drawerOpen && selectedStatue && (
+        {/* Desktop Drawer */}
+        {!isMobile && drawerOpen && selectedStatue && (
           <div style={{ position: 'sticky', top: '41px', height: 'calc(100vh - 41px)', overflowY: 'auto' }}>
             <StatueDrawer
               statue={selectedStatue}
@@ -130,6 +132,48 @@ export default function GalleryClient() {
           </div>
         )}
       </div>
+
+      {/* Mobile Bottom Sheet */}
+      {isMobile && drawerOpen && selectedStatue && (
+        <>
+          {/* Backdrop */}
+          <div
+            onClick={() => setSelectedId(null)}
+            style={{
+              position: 'fixed', inset: 0,
+              background: 'rgba(26,21,16,0.55)',
+              zIndex: 40,
+            }}
+          />
+          {/* Sheet */}
+          <div
+            className="sheet-enter"
+            style={{
+              position: 'fixed', bottom: 0, left: 0, right: 0,
+              height: '84vh',
+              zIndex: 50,
+              borderRadius: '16px 16px 0 0',
+              overflow: 'hidden',
+              boxShadow: '0 -8px 40px rgba(0,0,0,0.3)',
+            }}
+          >
+            {/* Drag handle */}
+            <div style={{
+              position: 'absolute', top: '10px', left: '50%', transform: 'translateX(-50%)',
+              width: '36px', height: '3px', background: '#c8bfaa', borderRadius: '2px', zIndex: 1,
+            }} />
+            <StatueDrawer
+              statue={selectedStatue}
+              index={selectedIndex}
+              total={filtered.length}
+              onClose={() => setSelectedId(null)}
+              onPrev={handlePrev}
+              onNext={handleNext}
+              isMobile
+            />
+          </div>
+        </>
+      )}
 
       {/* Footer */}
       <footer style={{ background: '#1a1510', borderTop: '2px solid #c9a84c', padding: '14px 28px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>

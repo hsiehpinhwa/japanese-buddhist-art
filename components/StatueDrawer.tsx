@@ -10,9 +10,10 @@ interface Props {
   onClose: () => void
   onPrev: () => void
   onNext: () => void
+  isMobile?: boolean
 }
 
-export default function StatueDrawer({ statue, index, total, onClose, onPrev, onNext }: Props) {
+export default function StatueDrawer({ statue, index, total, onClose, onPrev, onNext, isMobile }: Props) {
   const eraDisplay = normalizeEra(statue.era)
 
   const rows = [
@@ -23,6 +24,86 @@ export default function StatueDrawer({ statue, index, total, onClose, onPrev, on
     { label: '都道府縣', value: statue.prefecture },
     { label: '佛像類型', value: statue.type },
   ]
+
+  if (isMobile) {
+    return (
+      <div className="flex flex-col drawer-enter" style={{ background: '#fff', height: '100%' }}>
+        {/* Mobile: image top strip */}
+        <div style={{
+          background: '#1a1510', flexShrink: 0,
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          height: statue.image_url ? '200px' : '80px',
+          position: 'relative', paddingTop: '20px',
+        }}>
+          {statue.image_url ? (
+            <div style={{ width: '100%', height: '200px', position: 'relative' }}>
+              <Image src={statue.image_url} alt={statue.name_ja} fill className="object-contain" unoptimized style={{ padding: '12px' }} />
+            </div>
+          ) : null}
+          {/* Designation badge */}
+          <div style={{
+            position: 'absolute', bottom: '10px', left: '14px',
+            background: statue.designation === '国宝' ? '#1a1510' : 'transparent',
+            border: statue.designation === '国宝' ? '1px solid #c9a84c' : '1px solid #c8bfaa',
+            color: statue.designation === '国宝' ? '#c9a84c' : '#9a8870',
+            fontSize: '8px', padding: '3px 8px', letterSpacing: '0.1em',
+            fontFamily: 'var(--font-noto-sans)',
+          }}>
+            {statue.designation === '国宝' ? '國寶' : '重要文化財'}
+          </div>
+          {/* Close button */}
+          <button onClick={onClose} style={{
+            position: 'absolute', top: '14px', right: '14px',
+            fontSize: '9px', color: '#7a6840', fontFamily: 'var(--font-noto-sans)',
+            letterSpacing: '0.1em', cursor: 'pointer', background: 'none', border: 'none',
+          }}>✕</button>
+        </div>
+
+        {/* Info scrollable */}
+        <div style={{ flex: 1, overflowY: 'auto', padding: '16px 18px', display: 'flex', flexDirection: 'column' }}>
+          <div style={{ fontSize: '9px', color: '#c9a84c', letterSpacing: '0.2em', fontFamily: 'var(--font-noto-sans)', marginBottom: '4px' }}>
+            {eraDisplay}　{statue.year}
+          </div>
+          <h2 className="drawer-title" style={{ fontSize: '20px', color: '#1a1a1a', letterSpacing: '0.06em', fontFamily: 'var(--font-noto-serif)', fontWeight: 400, lineHeight: 1.3, marginBottom: '4px' }}>
+            {statue.name_ja}
+          </h2>
+          <div style={{ height: '2px', background: 'linear-gradient(90deg, #c9a84c, transparent)', margin: '12px 0' }} />
+          <table style={{ width: '100%', borderCollapse: 'collapse', fontFamily: 'var(--font-noto-sans)', marginBottom: '14px' }}>
+            <tbody>
+              {rows.map(({ label, value }) => value && value !== '不詳' ? (
+                <tr key={label}>
+                  <td style={{ fontSize: '9px', color: '#bbb', width: '58px', padding: '4px 0', borderBottom: '1px solid #f5f0e8', letterSpacing: '0.05em', verticalAlign: 'top' }}>{label}</td>
+                  <td style={{ fontSize: '10px', color: '#1a1a1a', padding: '4px 0', borderBottom: '1px solid #f5f0e8', fontWeight: 500 }}>{value}</td>
+                </tr>
+              ) : null)}
+            </tbody>
+          </table>
+          {statue.description && (
+            <div style={{ fontSize: '10px', color: '#3c2e1e', lineHeight: '1.9', fontFamily: 'var(--font-noto-sans)', background: '#faf7f0', borderLeft: '3px solid #c9a84c', padding: '10px 12px', borderRadius: '0 3px 3px 0', marginBottom: statue.explanation ? '12px' : '0' }}>
+              {statue.description}
+            </div>
+          )}
+          {statue.explanation && (
+            <div style={{ fontSize: '10px', color: '#5a4a38', lineHeight: '2.0', fontFamily: 'var(--font-noto-sans)' }}>
+              {statue.explanation}
+            </div>
+          )}
+          {statue.image_source && (
+            <div style={{ marginTop: '14px', fontSize: '9px', color: '#bbb', fontFamily: 'var(--font-noto-sans)' }}>
+              圖片來源：{statue.image_source}
+            </div>
+          )}
+        </div>
+
+        {/* Navigation */}
+        <div style={{ borderTop: '1px solid #f0e8d0', padding: '10px 18px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#faf7f0', flexShrink: 0 }}>
+          <button onClick={onPrev} disabled={index === 0} style={{ fontSize: '11px', color: index === 0 ? '#ccc' : '#c9a84c', fontFamily: 'var(--font-noto-sans)', cursor: index === 0 ? 'default' : 'pointer', background: 'none', border: 'none' }}>← 上一尊</button>
+          <span style={{ fontSize: '10px', color: '#ccc', fontFamily: 'var(--font-noto-sans)' }}>{String(index + 1).padStart(2, '0')} / {String(total).padStart(2, '0')}</span>
+          <button onClick={onNext} disabled={index === total - 1} style={{ fontSize: '11px', color: index === total - 1 ? '#ccc' : '#c9a84c', fontFamily: 'var(--font-noto-sans)', cursor: index === total - 1 ? 'default' : 'pointer', background: 'none', border: 'none' }}>下一尊 →</button>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="flex flex-col drawer-enter" style={{ background: '#fff', height: '100%' }}>
@@ -87,7 +168,7 @@ export default function StatueDrawer({ statue, index, total, onClose, onPrev, on
           </div>
 
           {/* Title */}
-          <h2 style={{ fontSize: '20px', color: '#1a1a1a', letterSpacing: '0.1em', fontFamily: 'var(--font-noto-serif)', fontWeight: 400, lineHeight: 1.35, marginBottom: '4px' }}>
+          <h2 className="drawer-title" style={{ fontSize: '24px', color: '#1a1a1a', letterSpacing: '0.08em', fontFamily: 'var(--font-noto-serif)', fontWeight: 400, lineHeight: 1.3, marginBottom: '4px' }}>
             {statue.name_ja}
           </h2>
 
