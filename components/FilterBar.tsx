@@ -72,7 +72,7 @@ export default function FilterBar({ filters, onChange }: Props) {
           地區
         </span>
         {PREFECTURES.map((p) => (
-          <Chip key={p} label={p.replace(/[都道府県]/, '')} active={filters.prefecture === p} onClick={() => set('prefecture', p)} />
+          <Chip key={p} label={p.replace(/[都道府県]$/, '')} active={filters.prefecture === p} onClick={() => set('prefecture', p)} />
         ))}
       </div>
     </div>
