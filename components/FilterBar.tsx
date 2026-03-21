@@ -2,7 +2,7 @@
 import { Filters } from '@/lib/filter'
 import { ERAS } from '@/data/eras'
 
-const PREFECTURES = ['奈良県', '京都府', '東京都', '兵庫県', '滋賀県', '神奈川県']
+const PREFECTURES = ['奈良県', '京都府', '東京都', '大阪府', '神奈川県', '滋賀県', '兵庫県']
 
 interface Props {
   filters: Filters
